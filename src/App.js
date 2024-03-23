@@ -78,6 +78,7 @@ function App() {
     }else {
       getWeatherByCity();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[city])
   return (
     <div className='wrapper'>
