@@ -46,18 +46,6 @@ function App() {
    
   }
   useEffect(() => {
-    //도시명 검색
-    const searchForm = document.getElementById('search-form');
-    const regex = /^[a-z]+$/;
-    searchForm.addEventListener('submit',function(e){
-      e.preventDefault();
-      const cityName = document.getElementById('search-input').value;
-      if(cityName && regex.test(cityName)){
-        setCity(cityName)
-      }
-    })
-  })
-  useEffect(() => {
     //섭씨 화씨 변경 버튼
     const checkBox = document.querySelector('#switch-check');
     function switchTemp(){
@@ -72,13 +60,24 @@ function App() {
       }
     } 
     checkBox.addEventListener('change',switchTemp);
-
+    //도시명 검색
+    const searchForm = document.getElementById('search-form');
+    const regex = /^[a-z]+$/;
+    searchForm.addEventListener('submit',function(e){
+      e.preventDefault();
+      const cityName = document.getElementById('search-input').value;
+      if(cityName && regex.test(cityName)){
+        setCity(cityName)
+      }
+    })
+  });
+  useEffect(() => {
     if(city === ''){
       getCurrentLocation();
     }else {
       getWeatherByCity();
     }
-  },[city, weather])
+  },[]);
   return (
     <div className='wrapper'>
       <video id="myVideo" autoPlay muted loop>
