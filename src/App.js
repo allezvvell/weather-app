@@ -1,11 +1,13 @@
 import './App.css';
 import { useEffect,useState } from 'react';
+import ClipLoader from "react-spinners/ClipLoader";
 import WeatherBox from './component/WeatherBox.js';
 import WeatherButton from './component/WeatherButton.js';
 
 function App() {
   const [weather,setWeather] = useState(null);
   const [city,setCity] = useState('');
+  const [loading, setLoading] = useState(true);
   const cities = ['new york','berlin','paris','rome','tokyo']; 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position)=>{
@@ -19,15 +21,23 @@ function App() {
   }
   const getWeatherByCurrentLocation = (lat,lon) => {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=1288bf9e88a7a07e97258d60b86ab458&units=metric`;
+    setLoading(true);
     fetch(url)
-    .then(res => res.json())
+    .then(res => {
+      if(!res.ok){
+        throw new Error(`${res.status} 에러 발생`)
+      }
+      return res.json()
+    })
     .then(data => {
       setWeather(data);
     })
-    .catch(console.log)
+    .catch(console.log);
+    setLoading(false);
   }
   const getWeatherByCity = () => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=1288bf9e88a7a07e97258d60b86ab458&units=metric`;
+    setLoading(true);
     fetch(url)
     .then((res) => {
       if(!res.ok){
@@ -42,10 +52,12 @@ function App() {
     .catch((e) => {
       console.log(e);
       alert('정확한 도시명을 입력해주세요');
-    })
+    });
+    setLoading(false);
    
   }
   useEffect(() => {
+    if(!loading){
     //섭씨 화씨 변경 버튼
     const checkBox = document.querySelector('#switch-check');
     function switchTemp(){
@@ -70,6 +82,7 @@ function App() {
         setCity(cityName)
       }
     })
+    }
   });
   useEffect(() => {
     if(city === ''){
@@ -77,17 +90,24 @@ function App() {
     }else {
       getWeatherByCity();
     }
-  });
+  },[city]);
   return (
     <div className='wrapper'>
       <video id="myVideo" autoPlay muted loop>
         <source src="./assets/clouds.mp4" type="video/mp4"/>
       </video>
-      <div className='main'>
+      {loading?(
+        <div className='main'>
+          <ClipLoader color='#fff' loading={loading} size={150} aria-label="Loading Spinner" data-testid="loader"/>
+        </div>
+      ):(
+        <div className='main'>
         <h1>How's the weather today?</h1>
-        <WeatherBox weather={weather}/>
+        {loading?'':<WeatherBox weather={weather}/>}
         <WeatherButton cities={cities} city={city} setCity={setCity}/>
-      </div>
+      </div> 
+      )}
+ 
     </div>
   );
 }
