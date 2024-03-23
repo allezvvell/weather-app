@@ -78,8 +78,7 @@ function App() {
     }else {
       getWeatherByCity();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[city])
+  },[city, weather])
   return (
     <div className='wrapper'>
       <video id="myVideo" autoPlay muted loop>
