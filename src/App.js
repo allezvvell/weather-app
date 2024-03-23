@@ -77,7 +77,7 @@ function App() {
     }else {
       getWeatherByCity();
     }
-  },[]);
+  },[city,weather]);
   return (
     <div className='wrapper'>
       <video id="myVideo" autoPlay muted loop>
