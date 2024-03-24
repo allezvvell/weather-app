@@ -187,6 +187,7 @@ button {
 
 #search-input {
     width: 100%;
+    margin-bottom: 30px;
     border: none;
     border-bottom: 1px solid #fff;
     background: transparent;

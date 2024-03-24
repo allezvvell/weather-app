@@ -10,6 +10,11 @@ const WeatherButton = ({cities,setCity,city}) => {
   },[])
   return (
     <div>
+      <div className='search-wrap'>
+        <form action='/' id='search-form'>
+          <input type='text' id='search-input' placeholder='도시명을 영어로 검색해주세요'/>
+        </form>
+      </div>
       <div className='button-wrap'>
       <button className={city===''?'active':''} onClick={(e)=>{
         setCity('');
@@ -20,11 +25,6 @@ const WeatherButton = ({cities,setCity,city}) => {
             setCity(item);
         }}><span>{item}</span></button>
       })}
-      </div>
-      <div className='search-wrap'>
-        <form action='/' id='search-form'>
-          <input type='text' id='search-input' placeholder='그 외 도시명을 영어로 검색해주세요'/>
-        </form>
       </div>
     </div>
   )
