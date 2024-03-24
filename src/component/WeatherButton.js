@@ -29,6 +29,5 @@ const WeatherButton = ({cities,setCity,city}) => {
     </div>
   )
 }
-// button key 부분
 
 export default WeatherButton
